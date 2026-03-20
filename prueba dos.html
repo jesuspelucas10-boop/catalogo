@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>G-Oro Tejido | Catálogo Exclusivo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --oro: #C5A021;
+            --oro-light: #F5E7A1;
+            --negro: #121212;
+            --fondo-premium: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            --blanco: #FFFFFF;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: var(--fondo-premium); 
+            color: var(--negro); 
+            line-height: 1.6;
+        }
+
+        /* --- LOGO LLAMATIVO --- */
+        header { 
+            padding: 60px 20px; 
+            text-align: center; 
+            background: var(--negro);
+            color: var(--blanco);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo-container {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            border: 3px solid var(--oro);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle, #2c2c2c, #000);
+            box-shadow: 0 0 20px rgba(197, 160, 33, 0.4);
+        }
+
+        .logo-letra {
+            font-family: 'Playfair Display', serif;
+            font-size: 60px;
+            background: linear-gradient(to bottom, var(--oro-light), var(--oro));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: var(--oro);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* --- GRILLA DE PRODUCTOS --- */
+        main { padding: 50px 20px; max-width: 1100px; margin: auto; }
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 35px; 
+        }
+
+        .card { 
+            background: var(--blanco); 
+            border-radius: 2px; /* Estilo joyería fina: menos redondeado */
+            overflow: hidden; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+            transition: all 0.4s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .card:hover { 
+            transform: translateY(-10px); 
+            border-bottom: 3px solid var(--oro);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        
+        .img-box { 
+            width: 100%; 
+            height: 350px; 
+            cursor: zoom-in; 
+            overflow: hidden; 
+            position: relative;
+            background: #fdfdfd;
+        }
+
+        .img-box img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+        }
+
+        .info { padding: 25px; }
+        .info h3 { font-size: 1.1rem; margin-bottom: 10px; font-weight: 400; }
+        .precio { color: var(--negro); font-weight: 600; font-size: 1.2rem; margin-bottom: 20px; }
+        
+        .btn-add { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid var(--negro); 
+            background: transparent; 
+            color: var(--negro); 
+            font-weight: 600; 
+            cursor: pointer; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .btn-add:hover { 
+            background: var(--negro); 
+            color: var(--blanco); 
+        }
+
+        /* --- MODAL ZOOM --- */
+        .modal { 
+            display: none; position: fixed; z-index: 2000; top: 0; left: 0; 
+            width: 100%; height: 100%; background: rgba(255,255,255,0.98); 
+            align-items: center; justify-content: center; 
+        }
+        .modal-img { max-width: 95%; max-height: 90%; object-fit: contain; }
+
+        /* --- CARRITO --- */
+        .carrito-btn { 
+            position: fixed; bottom: 30px; right: 30px; 
+            background: var(--negro); color: white;
+            width: 60px; height: 60px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            z-index: 1000; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .count { position: absolute; top: -5px; right: -5px; background: var(--oro); color: white; border-radius: 50%; padding: 4px 8px; font-size: 12px; }
+
+        .panel { 
+            position: fixed; top: 0; right: -100%; width: 350px; height: 100%; 
+            background: var(--blanco); z-index: 1001; transition: 0.5s; 
+            padding: 40px 30px; box-shadow: -10px 0 40px rgba(0,0,0,0.1); 
+        }
+        .panel.active { right: 0; }
+
+        /* --- SOCIAL --- */
+        .footer-social { padding: 60px 20px; text-align: center; background: #fff; }
+        .social-links a {
+            text-decoration: none; color: var(--negro); font-weight: 600;
+            margin: 0 15px; border-bottom: 1px solid var(--oro);
+        }
+
+        footer { padding: 40px; text-align: center; font-size: 0.8rem; color: #999; }
+    </style>
+</head>
+<body>
+
+<!-- Vista Ampliada -->
+<div id="imageModal" class="modal" onclick="this.style.display='none'">
+    <img class="modal-img" id="imgFull">
+</div>
+
+<!-- Botón Carrito -->
+<div class="carrito-btn" onclick="toggleCart()">
+    <span style="font-size: 24px;">🛒</span>
+    <div class="count" id="count">0</div>
+</div>
+
+<!-- Panel Lateral -->
+<div class="panel" id="cartPanel">
+    <h2 style="font-family:'Playfair Display'; margin-bottom:30px;">Bolsa de Compras</h2>
+    <div id="cartItems" style="height: 65%; overflow-y:auto;"></div>
+    <div style="border-top:1px solid #eee; padding-top:20px;">
+        <h3 id="total" style="margin-bottom:20px;">Total: $0</h3>
+        <button onclick="sendWA()" style="background:var(--negro); color:white; width:100%; padding:18px; border:none; font-weight:bold; cursor:pointer; text-transform:uppercase;">Finalizar Pedido</button>
+        <button onclick="toggleCart()" style="width:100%; margin-top:10px; background:none; border:none; cursor:pointer; color:#999;">Seguir viendo</button>
+    </div>
+</div>
+
+<header>
+    <div class="logo-container">
+        <span class="logo-letra">G</span>
+    </div>
+    <h1>G-ORO TEJIDO</h1>
+    <p>Handmade Jewelry Collection</p>
+</header>
+
+<main>
+    <div class="grid" id="productGrid"></div>
+</main>
+
+<section class="footer-social">
+    <div class="social-links">
+        <a href="https://www.instagram.com/gorolaminado?igsh=NTVvZWlwcjY5NDB5">INSTAGRAM</a>
+        <a href="https://www.facebook.com/profile.php?id=61580727467901">FACEBOOK</a>
+        <a href="https://wa.me/573332557262">WHATSAPP</a>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 G-ORO TEJIDO | RIOHACHA, LA GUAJIRA</p>
+</footer>
+
+<script>
+    const products = [
+        {n: "Manilla Tijido Aspiral", p: 40000, img: "https://i.ibb.co/RpX2RJ1k/manilla1.jpg"},
+        {n: "Manilla Tejido Cadena", p: 40000, img: "https://i.ibb.co/bjHQLwZx/manilla2.jpg"},
+        {n: "Manilla Tejido Cadena ", p: 40000, img: "https://i.ibb.co/zhWWDn4G/manilla3.jpg"},
+        {n: "Manilla Tejido Entre Lasado", p: 40000, img: "https://i.ibb.co/yF6CvyFc/manilla4.jpg"},
+        {n: "Manilla Tejido Aspiral", p: 35000, img: "https://i.ibb.co/qL3xhhTG/manilla5.jpg"},
+        {n: "Manilla Tejido Cadena ", p: 35000, img: "https://i.ibb.co/ch95wbq5/manilla6.jpg"},
+        {n: "Manilla Tejido Entre Lasado", p: 35000, img: "https://i.ibb.co/prxQWYCN/manilla7.jpg"}
+    ];
+
+    const grid = document.getElementById('productGrid');
+    products.forEach(p => {
+        grid.innerHTML += `
+            <div class="card">
+                <div class="img-box" onclick="openFull('${p.img}')">
+                    <img src="${p.img}" alt="${p.n}">
+                </div>
+                <div class="info">
+                    <h3>${p.n}</h3>
+                    <p class="precio">$${p.p.toLocaleString()}</p>
+                    <button class="btn-add" onclick="add('${p.n}', ${p.p})">Agregar a la bolsa</button>
+                </div>
+            </div>
+        `;
+    });
+
+    let cart = [];
+    let totalP = 0;
+
+    function openFull(src) {
+        document.getElementById('imgFull').src = src;
+        document.getElementById('imageModal').style.display = 'flex';
+    }
+
+    function toggleCart() { document.getElementById('cartPanel').classList.toggle('active'); }
+
+    function add(n, p) {
+        cart.push({n, p, id: Date.now()});
+        totalP += p;
+        updateCart();
+        if(!document.getElementById('cartPanel').classList.contains('active')) toggleCart();
+    }
+
+    function remove(id) {
+        const i = cart.findIndex(x => x.id === id);
+        totalP -= cart[i].p;
+        cart.splice(i, 1);
+        updateCart();
+    }
+
+    function updateCart() {
+        document.getElementById('count').innerText = cart.length;
+        const list = document.getElementById('cartItems');
+        list.innerHTML = '';
+        cart.forEach(item => {
+            list.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                <div><span style="font-size:0.9rem;">${item.n}</span><br><b>$${item.p.toLocaleString()}</b></div>
+                <button onclick="remove(${item.id})" style="color:#ccc; background:none; border:none; cursor:pointer;">Eliminar</button>
+            </div>`;
+        });
+        document.getElementById('total').innerText = `Total: $${totalP.toLocaleString()}`;
+    }
+
+    function sendWA() {
+        if(cart.length === 0) return alert("Tu bolsa está vacía");
+        const msg = "Pedido G-Oro Tejido:%0A" + cart.map(i => `- ${i.n}`).join("%0A") + `%0A%0A*Total: $${totalP.toLocaleString()}*`;
+        window.open(`https://wa.me/573332557262?text=${msg}`);
+    }
+</script>
+</body>
+</html>
